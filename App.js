@@ -49,10 +49,13 @@ export default function App() {
 
   /**
    * Helper to resolve the native binding functions across various export styles
+   * Supports both hasIrBlaster (@sachin-acharya-projects/ir-manager) and hasIrEmitter
    */
   const getNativeIrMethods = useCallback(() => {
     const hasIrEmitterFn =
+      (typeof IrManager?.hasIrBlaster === 'function' && IrManager.hasIrBlaster) ||
       (typeof IrManager?.hasIrEmitter === 'function' && IrManager.hasIrEmitter) ||
+      (typeof IrModule?.hasIrBlaster === 'function' && IrModule.hasIrBlaster) ||
       (typeof IrModule?.hasIrEmitter === 'function' && IrModule.hasIrEmitter);
 
     const transmitFn =
@@ -183,7 +186,15 @@ export default function App() {
       const pattern = translateBinaryToPulses(sanitized);
 
       // Hardware invocation firing at 38000 Hz carrier frequency
-      await transmitFn(CARRIER_FREQUENCY_HZ, pattern);
+      const result = await transmitFn(CARRIER_FREQUENCY_HZ, pattern);
+
+      // Verify result if returned as [message, success] pair
+      if (Array.isArray(result) && result.length >= 2) {
+        const [statusMessage, success] = result;
+        if (success === false) {
+          throw new Error(statusMessage || 'Hardware transmission reported failure.');
+        }
+      }
 
       const timestamp = new Date().toLocaleTimeString();
       setLastTransmission({

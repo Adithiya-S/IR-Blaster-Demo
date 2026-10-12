@@ -5,6 +5,10 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#0d1117",
+      "resizeMode": "contain"
+    },
     "android": {
       "package": "com.srwc.irapp",
       "adaptiveIcon": {
@@ -21,7 +25,6 @@
       "eas": {
         "projectId": "e38b6be4-f126-4535-8796-785a93876b67"
       }
-    },
-    "owner": "adithiya-s"
+    }
   }
 }

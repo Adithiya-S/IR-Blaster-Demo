@@ -16,6 +16,12 @@
     },
     "ios": {
       "supportsTablet": false
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e38b6be4-f126-4535-8796-785a93876b67"
+      }
+    },
+    "owner": "adithiya-s"
   }
 }
